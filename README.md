@@ -48,14 +48,12 @@ Each function leverages high-dimensional queries that combine:
 ---
 
 ## 3. Setup Instructions
-
 ### Environment Setup
-
+For example,
 ```bash
-cd gis/my-app
-
-# Install frontend dependencies
-npm install
+# Install required dependencies
+npm install  # For Node.js projects
+```
 
 ### Database Configuration
 - **Database Schema**: Provide an overview of the database structure.
@@ -69,3 +67,4 @@ npm install
   ```
 - **Customization of the Data (if any)**: e.g., convert attribute to TIMESTAMP type
 
+---
