@@ -15,9 +15,9 @@ Real-world use cases include:
 
 ### Web Application Functions
 
-- Query friends who checked in within 200km of your most-visited location
-- Identify users whose check-in trajectories highly overlap with yours
-- Detect friends who frequently visit locations after you (within 30 days)
+- Query friends who checked in within 50km of your most-visited location
+- Identify top10 users whose check-in trajectories highly overlap with yours
+- Detect top10 friends who frequently visit locations after you (within 30 days)
 
 Each function leverages high-dimensional queries that combine:
 
