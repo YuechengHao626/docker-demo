@@ -51,19 +51,39 @@ Each function leverages high-dimensional queries that combine:
 ### Environment Setup
 For example,
 ```bash
+cd gis/my-app
+
 # Install required dependencies
-npm install  # For Node.js projects
+npm install  # For next.js projects
 ```
 
 ### Database Configuration
 - **Database Schema**: Provide an overview of the database structure.
 - **How to Initialize Database**:
   ```bash
-  psql -U username -d database_name -f init.sql
+  createdb gowalla_project
+  psql -U postgres -d gowalla_project -c "CREATE EXTENSION IF NOT EXISTS postgis;"
+  psql -U postgres -d gowalla_project -f schema.sql
+
+  psql -U postgres -d gowalla_project
   ```
 - **How to Load Data**: e.g., from a csv file.
   ```sql
-  COPY table_name FROM 'path/to/data.csv' DELIMITER ',' CSV HEADER;
+
+  # Import raw check-in data from CSV into the checkins_raw table
+  \copy checkins_raw(user_id, checkin_time, latitude, longitude, location_id) FROM 'checkins.csv' WITH (FORMAT csv);
+
+  # Import friendship edges from CSV into the friendships table
+  \copy friendships(user_id, friend_id) FROM 'friendships.csv' WITH (FORMAT csv);
+
+  # Convert raw check-in records to structured check-ins table with geography type for spatial queries
+  INSERT INTO checkins (user_id, checkin_time, location, location_id)
+SELECT
+  user_id,
+  checkin_time,
+  ST_SetSRID(ST_MakePoint(longitude, latitude), 4326)::GEOGRAPHY,
+  location_id
+FROM checkins_raw;
   ```
 - **Customization of the Data (if any)**: e.g., convert attribute to TIMESTAMP type
 
