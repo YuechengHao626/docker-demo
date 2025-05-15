@@ -78,12 +78,12 @@ npm install  # For next.js projects
 
   # Convert raw check-in records to structured check-ins table with geography type for spatial queries
   INSERT INTO checkins (user_id, checkin_time, location, location_id)
-SELECT
-  user_id,
-  checkin_time,
-  ST_SetSRID(ST_MakePoint(longitude, latitude), 4326)::GEOGRAPHY,
-  location_id
-FROM checkins_raw;
+    SELECT
+      user_id,
+      checkin_time,
+      ST_SetSRID(ST_MakePoint(longitude, latitude), 4326)::GEOGRAPHY,
+      location_id
+      FROM checkins_raw;
   ```
 - **Customization of the Data (if any)**: e.g., convert attribute to TIMESTAMP type
 
