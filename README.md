@@ -59,9 +59,10 @@ npm install
 
 # create db
 createdb gowalla_project
+
+# get into db
 psql -U postgres -d gowalla_project
 
-```sql
 CREATE EXTENSION IF NOT EXISTS postgis;
 
 ### `npm run build` fails to minify
