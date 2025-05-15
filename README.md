@@ -60,32 +60,32 @@ npm install  # For next.js projects
 ### Database Configuration
 - **Database Schema**: Provide an overview of the database structure.
   ```sql
-CREATE EXTENSION IF NOT EXISTS postgis;
-
-CREATE TABLE checkins_raw (
-    user_id BIGINT,
-    checkin_time TIMESTAMPTZ,
-    latitude DOUBLE PRECISION,
-    longitude DOUBLE PRECISION,
-    location_id BIGINT
-);
-
-CREATE TABLE checkins (
-    id SERIAL PRIMARY KEY,
-    user_id BIGINT NOT NULL,
-    checkin_time TIMESTAMPTZ NOT NULL,
-    location GEOGRAPHY(POINT, 4326) NOT NULL,
-    location_id BIGINT NOT NULL
-);
-
-CREATE INDEX idx_checkins_location ON checkins USING GIST(location);
-CREATE INDEX idx_checkins_user_time ON checkins(user_id, checkin_time);
-
-CREATE TABLE friendships (
-    user_id BIGINT,
-    friend_id BIGINT,
-    PRIMARY KEY (user_id, friend_id)
-);
+    CREATE EXTENSION IF NOT EXISTS postgis;
+    
+    CREATE TABLE checkins_raw (
+        user_id BIGINT,
+        checkin_time TIMESTAMPTZ,
+        latitude DOUBLE PRECISION,
+        longitude DOUBLE PRECISION,
+        location_id BIGINT
+    );
+    
+    CREATE TABLE checkins (
+        id SERIAL PRIMARY KEY,
+        user_id BIGINT NOT NULL,
+        checkin_time TIMESTAMPTZ NOT NULL,
+        location GEOGRAPHY(POINT, 4326) NOT NULL,
+        location_id BIGINT NOT NULL
+    );
+    
+    CREATE INDEX idx_checkins_location ON checkins USING GIST(location);
+    CREATE INDEX idx_checkins_user_time ON checkins(user_id, checkin_time);
+    
+    CREATE TABLE friendships (
+        user_id BIGINT,
+        friend_id BIGINT,
+        PRIMARY KEY (user_id, friend_id)
+    );
 
   ```
   
