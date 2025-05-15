@@ -98,7 +98,7 @@ npm install  # For next.js projects
 
   psql -U postgres -d gowalla_project
   ```
-- **How to Load Data**: e.g., from a csv file.
+- **How to Load Data**: 
   ```sql
 
   # Import raw check-in data from CSV into the checkins_raw table
@@ -118,4 +118,21 @@ npm install  # For next.js projects
   ```
 ### Configurate
 
+```bash
+ vi my-app/src/lib/db.js
+```
+change it to your own password
+```bash
+const pool = new Pool({
+  host: 'localhost',
+  port: 5432,
+  database: 'gowalla_project',
+  user: 'postgres',
+  password: 'mypassword123',
+  max: 20,
+  idleTimeoutMillis: 30000, 
+  connectionTimeoutMillis: 2000,
+});
+
+```
 ---
