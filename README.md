@@ -57,14 +57,15 @@ cd gis/my-app
 # Install frontend dependencies
 npm install
 
-# create db
-createdb gowalla_project
+### Database Configuration
+- **Database Schema**: Provide an overview of the database structure.
+- **How to Initialize Database**:
+  ```bash
+  psql -U username -d database_name -f init.sql
+  ```
+- **How to Load Data**: e.g., from a csv file.
+  ```sql
+  COPY table_name FROM 'path/to/data.csv' DELIMITER ',' CSV HEADER;
+  ```
+- **Customization of the Data (if any)**: e.g., convert attribute to TIMESTAMP type
 
-# get into db
-psql -U postgres -d gowalla_project
-
-CREATE EXTENSION IF NOT EXISTS postgis;
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
