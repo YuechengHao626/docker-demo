@@ -86,6 +86,6 @@ npm install  # For next.js projects
       location_id
       FROM checkins_raw;
   ```
-- **Customization of the Data (if any)**: e.g., convert attribute to TIMESTAMP type
+### Configurate
 
 ---
