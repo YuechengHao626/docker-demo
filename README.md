@@ -53,9 +53,16 @@ Each function leverages high-dimensional queries that combine:
 
 ```bash
 cd gis/my-app
+
 # Install frontend dependencies
 npm install
 
+# create db
+createdb gowalla_project
+psql -U postgres -d gowalla_project
+
+```sql
+CREATE EXTENSION IF NOT EXISTS postgis;
 
 ### `npm run build` fails to minify
 
