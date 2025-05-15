@@ -1,69 +1,61 @@
-# Getting Started with Create React App
+# Gowalla High-Dimensional Query Web App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 1. Project Overview
 
-## Available Scripts
+### Motivation
 
-In the project directory, you can run:
+This web application explores meaningful patterns from the Gowalla dataset, which contains millions of user check-ins and social connections. The goal is to enable users to analyze their mobility behavior, discover overlapping trajectories, and uncover influence-based social interactions via spatial-temporal queries.
 
-### `npm start`
+Real-world use cases include:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- Location recommendation  
+- Social movement analysis  
+- Influence modeling  
+- Interactive geospatial visualization
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Web Application Functions
 
-### `npm test`
+- Query friends who checked in within 200km of your most-visited location
+- Show your top 10 visited locations in 2010
+- Identify users whose check-in trajectories highly overlap with yours
+- Detect friends who frequently visit locations after you (within 30 days)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Each function leverages high-dimensional queries that combine:
 
-### `npm run build`
+- Spatial (geographic coordinates)
+- Temporal (timestamp)
+- Social (friendship network) dimensions
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+---
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 2. Technology Stack
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Programming Languages & Frameworks
 
-### `npm run eject`
+- **Backend:** Node.js (API routes inside Next.js)  
+- **Frontend:** Next.js (React) + Leaflet  
+- **Database:** PostgreSQL 15 + PostGIS extension  
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Packages & Dependencies
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+| Package         | Purpose                                      |
+|----------------|----------------------------------------------|
+| `pg`           | Connect backend to PostgreSQL                |
+| `react-leaflet`| Render interactive maps                      |
+| `leaflet`      | Core geospatial map rendering library        |
+| `tailwindcss`  | Utility-first CSS framework for styling      |
+| `postgis`      | PostgreSQL extension for spatial queries     |
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+---
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## 3. Setup Instructions
 
-## Learn More
+### Environment Setup
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```bash
+# Install frontend dependencies
+npm install
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
 
 ### `npm run build` fails to minify
 
