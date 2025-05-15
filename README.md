@@ -49,7 +49,7 @@ Each function leverages high-dimensional queries that combine:
 
 ## 3. Setup Instructions
 ### Environment Setup
-For example,
+First, install dependencies.
 ```bash
 cd gis/my-app
 
@@ -60,6 +60,7 @@ npm install  # For next.js projects
 ### Database Configuration
 - **Database Schema**: Provide an overview of the database structure.
 - **How to Initialize Database**:
+  In the gis directory
   ```bash
   createdb gowalla_project
   psql -U postgres -d gowalla_project -c "CREATE EXTENSION IF NOT EXISTS postgis;"
