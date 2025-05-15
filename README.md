@@ -16,7 +16,6 @@ Real-world use cases include:
 ### Web Application Functions
 
 - Query friends who checked in within 200km of your most-visited location
-- Show your top 10 visited locations in 2010
 - Identify users whose check-in trajectories highly overlap with yours
 - Detect friends who frequently visit locations after you (within 30 days)
 
@@ -53,6 +52,7 @@ Each function leverages high-dimensional queries that combine:
 ### Environment Setup
 
 ```bash
+cd gis/my-app
 # Install frontend dependencies
 npm install
 
