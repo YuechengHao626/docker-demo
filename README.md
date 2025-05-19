@@ -121,7 +121,7 @@ npm install  # For next.js projects
 ```bash
  vi my-app/src/lib/db.js
 ```
-change it to your own password
+change it to your username and password
 ```bash
 const pool = new Pool({
   host: 'localhost',
@@ -179,12 +179,18 @@ const pool = new Pool({
   });
   ```
 
-## 5. Queries Implemented
-### Query 1: Nearby Friend Check-ins
-- **Task Description**: Find friends who checked in within 50km of your most visited locations in 2010
-- **Real-world Application**: Discover social connections' movement patterns around your frequent locations
+## 5. Task Queries
+### Task 1: Nearby Friend Check-ins (50km Range)
+**Goal**: Find friends who checked in within 50km of your most visited locations in 2010.
 
-### Query 1: SQL Query
+**Task Description**:
+- Input: A user ID
+- Output: List of friend check-ins within 50km radius
+- Time Range: Year 2010
+- Spatial Constraint: 50km radius
+- Social Dimension: Only friends' check-ins
+
+**SQL Implementation**:
 ```sql
 WITH user_locations AS (
   SELECT location_id, location
@@ -206,20 +212,18 @@ WHERE f.user_id = $1
   AND ST_DWithin(ul.location, friend.location, 50000)
 ORDER BY friend.checkin_time;
 ```
-- Variables:
-  - `$1`: User ID to analyze
-  - `50000`: Search radius in meters (50km)
 
-### Query 1: Error Handling
-- Returns empty array if no friends found
-- Validates user_id parameter
-- Handles invalid coordinates gracefully
+### Task 2: Who Follows My Steps? (30-Day Window)
+**Goal**: Identify friends who tend to visit the same locations within 30 days after you.
 
-### Query 2: Following Friends Analysis
-- **Task Description**: Identify friends who tend to visit the same locations within 30 days after you
-- **Real-world Application**: Discover social influence patterns in location choices
+**Task Description**:
+- Input: A user ID
+- Output: Top 10 friends ranked by follow count
+- Time Window: Within 30 days after user's check-in
+- Social Dimension: Only friends' check-ins
+- Ranking: Based on frequency of following behavior
 
-### Query 2: SQL Query
+**SQL Implementation**:
 ```sql
 SELECT 
   f.friend_id,
@@ -253,9 +257,48 @@ ORDER BY follow_count DESC
 LIMIT 10;
 ```
 
-### Query 3: Overlapping Users
-- **Task Description**: Find users who share similar movement patterns with you
-- **Real-world Application**: Discover users with similar interests and movement habits
+### Task 3: Similar Movement Patterns
+**Goal**: Find users who share similar movement patterns with you.
+
+**Task Description**:
+- Input: A user ID
+- Output: Top 10 users with most overlapping check-in locations
+- Time Range: Year 2010
+- Ranking: Based on number of shared locations
+- Visualization: Trajectories with color coding
+
+**SQL Implementation**:
+```sql
+WITH user_checkins AS (
+  SELECT DISTINCT location_id
+  FROM checkins
+  WHERE user_id = $1
+    AND checkin_time BETWEEN '2010-01-01' AND '2010-12-31'
+)
+SELECT 
+  c.user_id,
+  COUNT(DISTINCT c.location_id) as overlap_count,
+  json_agg(DISTINCT jsonb_build_object(
+    'location_id', c.location_id,
+    'lat', ST_Y(c.location::geometry),
+    'lng', ST_X(c.location::geometry),
+    'checkin_time', c.checkin_time
+  )) as trajectories
+FROM checkins c
+JOIN user_checkins uc ON c.location_id = uc.location_id
+WHERE c.user_id != $1
+  AND c.checkin_time BETWEEN '2010-01-01' AND '2010-12-31'
+GROUP BY c.user_id
+ORDER BY overlap_count DESC
+LIMIT 10;
+```
+
+Each task combines multiple dimensions:
+- Spatial: Geographic coordinates and distances
+- Temporal: Time windows and sequences
+- Social: Friendship networks and user interactions
+
+The queries utilize PostGIS spatial functions and PostgreSQL's advanced features to efficiently process and analyze the check-in data.
 
 ## 6. How to Run the Application
 ```bash
@@ -266,17 +309,41 @@ npm install
 npm run dev
 ```
 
-## 7. Port Usage
+## 7. How to Use the Application
+1. Visit [http://localhost:3000](http://localhost:3000) to access the main page
+2. You'll see three main analysis functions:
+
+### Who Follows My Steps?
+- Click on "Who Follows My Steps?" card
+- Enter your User ID in the input field
+- The system will display a table showing your top 10 friends who tend to visit the same locations within 30 days after you
+- Results include friend IDs and the number of times they followed your check-in patterns
+
+### Nearby Check-ins
+- Click on "Nearby Check-ins" card
+- Enter your User ID in the input field
+- View a map showing check-ins from your friends within 50km of your most visited locations
+- Different colors represent different friends' check-ins
+- Click on markers to see detailed check-in information
+
+### Similar Trajectories
+- Click on "Similar Trajectories" card
+- Enter your User ID in the input field
+- Explore a map showing trajectories of users who share similar movement patterns with you
+- Each user's trajectory is shown in a different color
+- The legend shows overlap counts for each user
+
+## 8. Port Usage
 - Application Port: 3000 (Next.js integrated frontend and backend)
 
-## 8. UI Address
+## 9. UI Address
 - Main Application: [http://localhost:3000](http://localhost:3000)
 - API Endpoints: 
   - [http://localhost:3000/api/queries/nearby-friend-checkins](http://localhost:3000/api/queries/nearby-friend-checkins)
   - [http://localhost:3000/api/queries/following-friends](http://localhost:3000/api/queries/following-friends)
   - [http://localhost:3000/api/queries/overlapping-users](http://localhost:3000/api/queries/overlapping-users)
 
-## 9. Additional Notes
+## 10. Additional Notes
 ### Assumptions
 - All timestamps are in UTC
 - Check-in coordinates are valid and within reasonable bounds
